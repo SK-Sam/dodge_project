@@ -29,12 +29,9 @@ animations = [ {
 
 [sub_resource type="CapsuleShape2D" id=2]
 
-[node name="Mob" type="Node2D"]
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Mob" type="RigidBody2D" parent="."]
+[node name="Mob" type="RigidBody2D" groups=[
+"mobs",
+]]
 collision_mask = 0
 gravity_scale = 0.0
 script = ExtResource( 7 )
@@ -42,17 +39,22 @@ __meta__ = {
 "_edit_group_": true
 }
 
-[node name="AnimatedSprite" type="AnimatedSprite" parent="Mob"]
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 scale = Vector2( 0.75, 0.75 )
 frames = SubResource( 1 )
 animation = "walk"
 frame = 1
 playing = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Mob"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 rotation = 1.5708
 shape = SubResource( 2 )
 
-[node name="Visibility" type="VisibilityNotifier2D" parent="Mob"]
+[node name="Visibility" type="VisibilityNotifier2D" parent="."]
 script = ExtResource( 8 )
-[connection signal="screen_exited" from="Mob/Visibility" to="Mob" method="_on_Visibility_screen_exited"]
+
+[node name="Mob" type="Node2D" parent="."]
+__meta__ = {
+"_edit_group_": true
+}
+[connection signal="screen_exited" from="Visibility" to="." method="_on_Visibility_screen_exited"]

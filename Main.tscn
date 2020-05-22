@@ -1,19 +1,33 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Main.gd" type="Script" id=2]
 [ext_resource path="res://Mob.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Control.tscn" type="PackedScene" id=4]
+[ext_resource path="res://art/House In a Forest Loop.ogg" type="AudioStream" id=5]
+[ext_resource path="res://art/gameover.wav" type="AudioStream" id=6]
 
 [sub_resource type="Curve2D" id=1]
 _data = {
-"points": PoolVector2Array( 0, 0, 0, 0, 0, -2, 0, 0, 0, 0, 477, 0, 0, 0, 0, 0, 477, 719, 0, 0, 0, 0, -2, 719, 0, 0, 0, 0, 0, -2 )
+"points": PoolVector2Array( 0, 0, 0, 0, 0, -2, 0, 0, 0, 0, 1.01117, -2.4996, 0, 0, 0, 0, 478.822, 1.17586, 0, 0, 0, 0, 478.822, 719.045, 0, 0, 0, 0, 0.276062, 716.84, 0, 0, 0, 0, 0, -2 )
 }
 
 [node name="Main" type="Node2D"]
 script = ExtResource( 2 )
 Mob = ExtResource( 3 )
 
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_right = 480.0
+margin_bottom = 723.0
+color = Color( 0, 0, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="Player" parent="." instance=ExtResource( 1 )]
+position = Vector2( 1.16635, -2.3327 )
+
+[node name="Mob" parent="." instance=ExtResource( 3 )]
 
 [node name="MobTimer" type="Timer" parent="."]
 wait_time = 0.5
@@ -32,8 +46,17 @@ curve = SubResource( 1 )
 
 [node name="MobSpawnLocation" type="PathFollow2D" parent="MobPath"]
 position = Vector2( 0, -2 )
-rotation = 0.00419288
+rotation = -0.102104
+
+[node name="HUD" parent="." instance=ExtResource( 4 )]
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 5 )
+
+[node name="DeathSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 6 )
 [connection signal="hit" from="Player" to="." method="game_over"]
 [connection signal="timeout" from="MobTimer" to="." method="_on_MobTimer_timeout"]
 [connection signal="timeout" from="ScoreTimer" to="." method="_on_ScoreTimer_timeout"]
 [connection signal="timeout" from="StartTimer" to="." method="_on_StartTimer_timeout"]
+[connection signal="start_game" from="HUD" to="." method="new_game"]
